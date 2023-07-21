@@ -52,7 +52,7 @@ export class App extends Component {
     const filteredNames = this.getFilteredNames();
 
     return (
-      <div>
+      <div className="container">
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmitHandler} />
         <h2>Contacts</h2>
