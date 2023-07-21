@@ -8,8 +8,8 @@ export class App extends Component {
     number: '',
   };
 
-  handleNameChange = event => {
-    this.setState({ name: event.target.value });
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   handleSubmit = event => {
@@ -18,9 +18,10 @@ export class App extends Component {
     this.setState(prevState => ({
       contacts: [
         ...prevState.contacts,
-        { id: nanoid(), name: this.state.name },
+        { id: nanoid(), name: this.state.name, number: this.state.number },
       ],
       name: this.state.name,
+      number: this.state.number,
     }));
 
     console.log(this.state);
@@ -29,7 +30,7 @@ export class App extends Component {
   };
 
   reset = () => {
-    this.setState({ name: '' });
+    this.setState({ name: '', number: '' });
   };
 
   render() {
@@ -46,16 +47,18 @@ export class App extends Component {
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
               required
               value={this.state.name}
-              onChange={this.handleNameChange}
+              onChange={this.handleChange}
             />
           </label>
           <label>
             <input
               type="tel"
               name="number"
-              ppattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+              pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
+              value={this.state.number}
+              onChange={this.handleChange}
             />
           </label>
           <button type="submit">Add contact</button>
@@ -63,7 +66,11 @@ export class App extends Component {
         <h2>Contacts</h2>
         <ul>
           {this.state.contacts.map(option => {
-            return <li key={option.id}>{option.name}</li>;
+            return (
+              <li key={option.id}>
+                {option.name}: {option.number}
+              </li>
+            );
           })}
         </ul>
       </div>
